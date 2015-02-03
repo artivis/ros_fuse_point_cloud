@@ -1,0 +1,44 @@
+<launch>
+    <!-- Topics to listen to -->
+    <arg name="topic1" default="/camera_1/depth/points" />
+    <arg name="topic2" default="/camera_2/depth/points" />
+    <arg name="topic3" default="none" />
+    <arg name="topic4" default="none" />
+    <arg name="topic5" default="none" />
+    <arg name="topic6" default="none" />
+    <arg name="topic7" default="none" />
+    <arg name="topic8" default="none" />
+
+    <!-- Shared synchronizer & listener param -->
+    <arg name="queuesize" default="10" />
+
+    <!-- Fused point cloud in frame_id -->
+    <arg name="transform_pointcloud" default="true" />
+    <arg name="referenceframe" default="/camera_1_link" />
+
+    <!-- Downsample -->
+    <arg name="downsample" default="true" />
+    <arg name="leafsize" default="0.05" />
+
+    <node pkg="ros_fuse_point_cloud" type="fuse_xyz" name="fuse_xyz" output="screen">
+      <param name="reference_frame" value="$(arg referenceframe)" />
+      <param name="queue_size" value="$(arg queuesize)" />
+      <param name="downsample" value="$(arg downsample)" />
+      <param name="leaf_size" value="$(arg leafsize)" />
+      <param name="transform_pointcloud" value="$(arg transform_pointcloud)" />
+      <rosparam param="topics" subst_value="True" >
+       - $(arg topic1)
+       - $(arg topic2)
+       - $(arg topic3)
+       - $(arg topic4)
+       - $(arg topic5)
+       - $(arg topic6)
+       - $(arg topic7)
+       - $(arg topic8)
+      </rosparam>
+    </node>
+
+    <!--node name="rviz" pkg="rviz" type="rviz" output="screen"/ -->
+
+</launch>
+
